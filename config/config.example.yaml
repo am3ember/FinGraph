@@ -1,0 +1,26 @@
+# FinGraph 爬虫配置文件
+# 复制此文件为 config.yaml 并填入你的实际配置
+
+zsxq:
+  # 知识星球 Cookie 中的 access_token
+  access_token: "YOUR_ZSXQ_ACCESS_TOKEN"
+  # 星球 Group ID
+  group_id: "15522851881112"
+
+storage:
+  # 文章 JSON 数据存储目录
+  articles_dir: "data/articles"
+  # 图片存储目录
+  images_dir: "data/images"
+  # SQLite 数据库路径
+  db_path: "data/fingraph.db"
+
+crawler:
+  # 每次请求获取的主题数
+  page_size: 20
+  # 请求间隔（秒），避免被限流
+  request_interval: 2
+  # 是否下载图片到本地
+  download_images: true
+  # 图片下载并发数
+  image_concurrency: 3
