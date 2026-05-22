@@ -55,6 +55,7 @@ def crawl(config: dict, max_pages: int = None, since_date: str = None):
     page = 0
     total_new = 0
     stop = False
+    consecutive_failures = 0
 
     logger.info(f"开始爬取，since_date={since_date or '全部'}, max_pages={max_pages or '不限'}")
 
@@ -64,7 +65,18 @@ def crawl(config: dict, max_pages: int = None, since_date: str = None):
             break
 
         logger.info(f"正在获取第 {page} 页主题列表...")
-        topics, next_end_time = client.get_topics(group_id, count=page_size, end_time=end_time)
+        try:
+            topics, next_end_time = client.get_topics(group_id, count=page_size, end_time=end_time)
+        except Exception as e:
+            consecutive_failures += 1
+            logger.warning(f"第 {page} 页获取失败 ({consecutive_failures}/3): {e}")
+            if consecutive_failures >= 3:
+                logger.error("连续 3 页失败，停止爬取")
+                break
+            # 跳过这一页，用当前 end_time 继续尝试下一页
+            continue
+
+        consecutive_failures = 0
 
         if not topics:
             logger.info("没有更多主题了")
