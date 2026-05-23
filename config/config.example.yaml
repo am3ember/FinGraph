@@ -24,3 +24,11 @@ crawler:
   download_images: true
   # 图片下载并发数
   image_concurrency: 3
+
+llm:
+  # DeepSeek API Key
+  api_key: "YOUR_DEEPSEEK_API_KEY"
+  # 模型名称
+  model: "deepseek-chat"
+  # API 地址
+  base_url: "https://api.deepseek.com/v1"
